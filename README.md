@@ -25,10 +25,11 @@ From here, I could have edited the regular logstash configuration file, but I in
 sudo nano /etc/logstash/conf.d/logstash_demo.conf
 ```
 
-**Contents of the configuration file:**
-https://github.com/bdubs85/logstash/blob/main/logstash_demo.conf
+**Contents of the configuration file:** [Configuration](https://github.com/bdubs85/logstash/blob/main/logstash_demo.conf)
 
-This configuration uses a *sample.log* file input to logstash. From here, I configured a Grok filter to match the various segments of the log and map them to a useful semantic. 
+This configuration uses a *sample.log* file input to logstash. 
+
+From here, I configured a Grok filter to match the various segments of the log and map them to a useful semantic. 
 Notice that the severity on the input file and the required output are dissimilar: *"1"* on the input log and *"High"* on the output requirement. 
 To address this requirement, I used ```severity="%{INT:severity_lvl}``` 
 to input the *"1"* as a temporary value and then used a transform filter to dictionary match that input to a desired output of *"True"* and then removes the temporary field. This way, you can create different dictionary values to transform other severity levels dynamically.
@@ -39,3 +40,22 @@ After creating the separate configuration file, I then ran logstash, using the "
 ```
 sudo /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/logstash_demo.conf
 ```
+Logstash then runs, outputting to both the [output.json file](https://github.com/bdubs85/logstash/blob/main/output.json) as well as [console output](https://github.com/bdubs85/logstash/blob/main/std_output):
+```
+           "severity" => "High",
+            "message" => "<14>1 2016-12-25T09:03:52.754646-06:00 contosohost1 antivirus 2496 - - alertname=\"Virus Found\" computername=\"contosopc42\" computerip=\"216.58.194.142\" severity=\"1\"",
+     "syslog5424_app" => "antivirus",
+               "path" => "/home/cloud_user/grok/sample.log",
+     "syslog5424_pri" => "14",
+          "source_ip" => "216.58.194.142",
+           "@version" => "1",
+               "host" => "05f7dbdb731c.mylabserver.com",
+      "syslog5424_ts" => "2016-12-25T09:03:52.754646-06:00",
+           "hostname" => "contosopc42",
+        "description" => "Virus Found",
+         "@timestamp" => 2021-03-01T18:47:52.185Z,
+    "syslog5424_proc" => "2496",
+    "syslog5424_host" => "contosohost1",
+     "syslog5424_ver" => "1"
+```
+All of the required data (but not exclusively) for this skills challenge is contained in these outputs.
