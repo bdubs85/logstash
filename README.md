@@ -19,3 +19,19 @@ mkdir -p /home/cloud_user/grok
 nano /home/cloud_user/grok/sample.log
 ```
 I then pasted in the data as provided in the instructions and saved the file.
+
+From here, I could have edited the regular logstash configuration file, but I instead created a new configuration file for this example:
+```
+sudo nano /etc/logstash/conf.d/logstash_demo.conf
+```
+
+Contents of the configuration file:
+```
+PLACEHOLDER
+```
+
+## Running Logstash
+After creating the separate configuration file, I then ran logstash, using the "-f" flag to use my configuration file when running.
+```
+sudo /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/logstash_demo.conf
+```
